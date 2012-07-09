@@ -56,6 +56,7 @@ import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.ConnectionInfo;
 import com.trilead.ssh2.ConnectionMonitor;
 import com.trilead.ssh2.DynamicPortForwarder;
+import com.trilead.ssh2.HTTPProxyData;
 import com.trilead.ssh2.InteractiveCallback;
 import com.trilead.ssh2.KnownHosts;
 import com.trilead.ssh2.LocalPortForwarder;
@@ -410,6 +411,11 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 			connection.setCompression(compression);
 		} catch (IOException e) {
 			Log.e(TAG, "Could not enable compression!", e);
+		}
+
+		if (http_proxy_port > 0 && http_proxy_host.length() > 0) {
+			connection.setProxyData(
+				new HTTPProxyData(http_proxy_host,http_proxy_port));
 		}
 
 		try {

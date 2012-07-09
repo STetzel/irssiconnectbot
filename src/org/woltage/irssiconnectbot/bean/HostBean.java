@@ -50,7 +50,10 @@ public class HostBean extends AbstractBean {
 	private boolean compression = false;
 	private String encoding = HostDatabase.ENCODING_DEFAULT;
 	private boolean stayConnected = false;
-
+	private boolean proxy_enable = false;
+	private String proxy_host;
+	private int proxy_port;
+	
 	public HostBean() {
 
 	}
@@ -201,6 +204,25 @@ public class HostBean extends AbstractBean {
 	public boolean getStayConnected() {
 		return stayConnected;
 	}
+	
+	public void setProxyEnable(boolean enable) {
+		this.proxy_enable = enable;
+	}
+	public boolean getProxyEnable() {
+		return proxy_enable && proxy_host.length() > 0 && proxy_port > 0;
+	}
+	public void setProxyHost(String host) {
+		this.proxy_host = host;
+	}
+	public String getProxyHost() {
+		return proxy_host;
+	}
+	public void setProxyPort(int port) {
+		this.proxy_port = port;
+	}
+	public int getProxyPort() {
+		return proxy_port;
+	}
 
 	public String getDescription() {
 		String description = String.format("%s@%s", username, hostname);
@@ -234,6 +256,9 @@ public class HostBean extends AbstractBean {
 		values.put(HostDatabase.FIELD_HOST_COMPRESSION, Boolean.toString(compression));
 		values.put(HostDatabase.FIELD_HOST_ENCODING, encoding);
 		values.put(HostDatabase.FIELD_HOST_STAYCONNECTED, stayConnected);
+		values.put(HostDatabase.FIELD_HOST_PROXY_ENABLE, Boolean.toString(proxy_enable));
+		values.put(HostDatabase.FIELD_HOST_PROXY_HOST, proxy_host);
+		values.put(HostDatabase.FIELD_HOST_PROXY_PORT, proxy_port);
 
 		return values;
 	}

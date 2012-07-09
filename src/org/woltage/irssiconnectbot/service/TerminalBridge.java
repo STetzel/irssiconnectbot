@@ -265,6 +265,8 @@ public class TerminalBridge implements VDUDisplay {
 		transport.setCompression(host.getCompression());
 		transport.setUseAuthAgent(host.getUseAuthAgent());
 		transport.setEmulation(emulation);
+		if (host.getProxyEnable())
+			transport.setHTTPProxy(host.getProxyHost(),host.getProxyPort());
 
 		if (transport.canForwardPorts()) {
 			for (PortForwardBean portForward : manager.hostdb.getPortForwardsForHost(host))

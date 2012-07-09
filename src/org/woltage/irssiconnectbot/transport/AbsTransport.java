@@ -39,6 +39,9 @@ public abstract class AbsTransport {
 	TerminalManager manager;
 
 	String emulation;
+	
+	String http_proxy_host;
+	int http_proxy_port;
 
 	public AbsTransport() {}
 
@@ -46,6 +49,11 @@ public abstract class AbsTransport {
 		this.host = host;
 		this.bridge = bridge;
 		this.manager = manager;
+	}
+
+	public void setHTTPProxy(String host, int port) {
+		this.http_proxy_host = host;
+		this.http_proxy_port = port;
 	}
 
 	/**

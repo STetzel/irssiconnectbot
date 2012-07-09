@@ -121,5 +121,25 @@
 			/>
 
 	</PreferenceCategory>
+	<PreferenceCategory
+		android:title="HTTP proxy">		
+
+		<CheckBoxPreference
+			android:key="http_proxy_enable"
+			android:title="Enable Proxy"
+			android:summary="Enable connection through HTTP proxy"
+			android:defaultValue="false"
+			/>
+
+		<EditTextPreference
+	   		android:key="http_proxy_host"
+	   		android:title="Proxy Address"
+	   		/>
+
+		<EditTextPreference
+	   		android:key="http_proxy_port"
+	   		android:title="Proxy Port"
+	   		/>
+   	</PreferenceCategory>
 
 </PreferenceScreen>
