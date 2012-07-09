@@ -177,7 +177,7 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 				+ FIELD_HOST_PROXY_ENABLE + " TEXT DEFAULT '" + Boolean.toString(false) + "', "
 				+ FIELD_HOST_PROXY_HOST + " TEXT, "
 				+ FIELD_HOST_PROXY_PORT + " TEXT)");
- 
+
 		db.execSQL("CREATE TABLE " + TABLE_PORTFORWARDS
 				+ " (_id INTEGER PRIMARY KEY, "
 				+ FIELD_PORTFORWARD_HOSTID + " INTEGER, "
@@ -270,7 +270,7 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 			db.execSQL("ALTER TABLE " + TABLE_HOSTS
 					+ " ADD COLUMN " + FIELD_HOST_PROXY_ENABLE + " TEXT DEFAULT '" + Boolean.toString(false) + "', "
 					+ " ADD COLUMN " + FIELD_HOST_PROXY_HOST + " TEXT, "
-					+ " ADD COLUMN " + FIELD_HOST_PROXY_PORT + " TEXT");ELD_HOST_PROXY_PORT + " TEXT");
+					+ " ADD COLUMN " + FIELD_HOST_PROXY_PORT + " TEXT");
 		}
 	}
 
@@ -392,7 +392,7 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 			COL_PROXY_ENABLE = c.getColumnIndexOrThrow(FIELD_HOST_PROXY_ENABLE),
 			COL_PROXY_HOST = c.getColumnIndexOrThrow(FIELD_HOST_PROXY_HOST),
 			COL_PROXY_PORT = c.getColumnIndexOrThrow(FIELD_HOST_PROXY_PORT);
- 
+
 
 		while (c.moveToNext()) {
 			HostBean host = new HostBean();

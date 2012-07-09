@@ -17,6 +17,12 @@
 
 package org.woltage.irssiconnectbot;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+
 import org.woltage.irssiconnectbot.bean.PubkeyBean;
 import org.woltage.irssiconnectbot.bean.SelectionArea;
 import org.woltage.irssiconnectbot.service.PromptHelper;
@@ -24,11 +30,12 @@ import org.woltage.irssiconnectbot.service.TerminalBridge;
 import org.woltage.irssiconnectbot.service.TerminalKeyListener;
 import org.woltage.irssiconnectbot.service.TerminalManager;
 import org.woltage.irssiconnectbot.util.PreferenceConstants;
+import org.woltage.irssiconnectbot.util.PubkeyDatabase;
+import org.woltage.irssiconnectbot.util.PubkeyUtils;
 
-import com.bugsense.trace.BugSenseHandler;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ActionBar;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -71,17 +78,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.nullwire.trace.ExceptionHandler;
 
 import de.mud.terminal.vt320;
-import org.woltage.irssiconnectbot.util.PubkeyDatabase;
-import org.woltage.irssiconnectbot.util.PubkeyUtils;
-
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 
 public class ConsoleActivity extends Activity {
 	public final static String TAG = "ConnectBot.ConsoleActivity";
@@ -380,7 +380,7 @@ public class ConsoleActivity extends Activity {
 		inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		final RelativeLayout keyboardGroup = (RelativeLayout) findViewById(R.id.keyboard_group);
-        
+
         if(Build.MODEL.startsWith("Transformer") &&
            getResources().getConfiguration().keyboard == Configuration.KEYBOARD_QWERTY &&
            prefs.getBoolean(PreferenceConstants.ACTIONBAR, true)) {
@@ -420,7 +420,7 @@ public class ConsoleActivity extends Activity {
 				View flip = findCurrentView(R.id.console_flip);
 				if (flip == null)
 					return;
-				
+
 				final TerminalView terminal = (TerminalView)flip;
 				Thread promptThread = new Thread(new Runnable() {
 						public void run() {
@@ -501,11 +501,13 @@ public class ConsoleActivity extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 
 		View view = findCurrentView(R.id.console_flip);
+		@SuppressWarnings("unused")
 		final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
 		final boolean activeTerminal = (view instanceof TerminalView);
 		boolean sessionOpen = false;
@@ -526,7 +528,6 @@ public class ConsoleActivity extends Activity {
         ctrlKey.setIcon(R.drawable.button_ctrl)         ;
         ctrlKey.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         ctrlKey.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 View flip = findCurrentView(R.id.console_flip);
                 if (flip == null) return false;
@@ -545,7 +546,6 @@ public class ConsoleActivity extends Activity {
         escKey.setIcon(R.drawable.button_esc);
         escKey.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         escKey.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 View flip = findCurrentView(R.id.console_flip);
                 if (flip == null) return false;
@@ -564,7 +564,6 @@ public class ConsoleActivity extends Activity {
         symKey.setIcon(R.drawable.button_sym);
         symKey.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         symKey.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 View flip = findCurrentView(R.id.console_flip);
                 if (flip == null) return false;
@@ -576,13 +575,12 @@ public class ConsoleActivity extends Activity {
                 return true;
             }
         });
-        
+
         MenuItem inputButton = menu.add("Input");
         inputButton.setEnabled(activeTerminal);
         inputButton.setIcon(R.drawable.button_input);
         inputButton.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         inputButton.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 View flip = findCurrentView(R.id.console_flip);
                 if (flip == null)
@@ -607,7 +605,6 @@ public class ConsoleActivity extends Activity {
         keyboard.setIcon(R.drawable.button_keyboard);
         keyboard.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         keyboard.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 View flip = findCurrentView(R.id.console_flip);
                 if (flip == null)
@@ -617,7 +614,7 @@ public class ConsoleActivity extends Activity {
                 return true;
             }
         });
-        
+
 
 		disconnect = menu.add(R.string.list_host_disconnect);
 		if (hardKeyboard)
